@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="theme-color" content="#07111f" /><link rel="stylesheet" href="styles.css" /><script defer src="script.js"></script><title>Modern Practical Deep Networks — SaeHoon Learning Archive</title></head>
+<body class="detail-page"><main class="detail-shell"><header class="detail-header"><a class="detail-back" href="index.html#notes">← Study Notes로 돌아가기</a><p class="detail-eyebrow">Deep Learning · Part II</p><h1 class="detail-title">Modern Practical Deep Networks</h1><p class="detail-intro">신경망의 핵심 구조부터 정규화, 최적화, CNN, RNN, 실전 방법론과 응용까지 section별로 정리합니다.</p></header>
+<section class="chapter-list expandable-chapter-list" aria-label="학습 목차">
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter6.html">
+            <span class="chapter-number">06</span>
+            <span class="chapter-title">Deep Feedforward Networks</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 6 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 6 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter6-1.html"><span class="subsection-number">6.1</span><span class="subsection-title">Example: Learning XOR</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter6-2.html"><span class="subsection-number">6.2</span><span class="subsection-title">Gradient-Based Learning</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter6-3.html"><span class="subsection-number">6.3</span><span class="subsection-title">Hidden Units</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter6-4.html"><span class="subsection-number">6.4</span><span class="subsection-title">Architecture Design</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter6-5.html"><span class="subsection-number">6.5</span><span class="subsection-title">Back-Propagation and Other Differentiation Algorithms</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter6-6.html"><span class="subsection-number">6.6</span><span class="subsection-title">Historical Notes</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter7.html">
+            <span class="chapter-number">07</span>
+            <span class="chapter-title">Regularization for Deep Learning</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 7 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 7 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter7-1.html"><span class="subsection-number">7.1</span><span class="subsection-title">Parameter Norm Penalties</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-2.html"><span class="subsection-number">7.2</span><span class="subsection-title">Norm Penalties as Constrained Optimization</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-3.html"><span class="subsection-number">7.3</span><span class="subsection-title">Regularization and Under-Constrained Problems</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-4.html"><span class="subsection-number">7.4</span><span class="subsection-title">Dataset Augmentation</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-5.html"><span class="subsection-number">7.5</span><span class="subsection-title">Noise Robustness</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-6.html"><span class="subsection-number">7.6</span><span class="subsection-title">Semi-Supervised Learning</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-7.html"><span class="subsection-number">7.7</span><span class="subsection-title">Multitask Learning</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-8.html"><span class="subsection-number">7.8</span><span class="subsection-title">Early Stopping</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-9.html"><span class="subsection-number">7.9</span><span class="subsection-title">Parameter Tying and Parameter Sharing</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-10.html"><span class="subsection-number">7.10</span><span class="subsection-title">Sparse Representations</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-11.html"><span class="subsection-number">7.11</span><span class="subsection-title">Bagging and Other Ensemble Methods</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-12.html"><span class="subsection-number">7.12</span><span class="subsection-title">Dropout</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-13.html"><span class="subsection-number">7.13</span><span class="subsection-title">Adversarial Training</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter7-14.html"><span class="subsection-number">7.14</span><span class="subsection-title">Tangent Distance, Tangent Prop and Manifold Tangent Classifier</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter8.html">
+            <span class="chapter-number">08</span>
+            <span class="chapter-title">Optimization for Training Deep Models</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 8 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 8 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter8-1.html"><span class="subsection-number">8.1</span><span class="subsection-title">How Learning Differs from Pure Optimization</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter8-2.html"><span class="subsection-number">8.2</span><span class="subsection-title">Challenges in Neural Network Optimization</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter8-3.html"><span class="subsection-number">8.3</span><span class="subsection-title">Basic Algorithms</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter8-4.html"><span class="subsection-number">8.4</span><span class="subsection-title">Parameter Initialization Strategies</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter8-5.html"><span class="subsection-number">8.5</span><span class="subsection-title">Algorithms with Adaptive Learning Rates</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter8-6.html"><span class="subsection-number">8.6</span><span class="subsection-title">Approximate Second-Order Methods</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter8-7.html"><span class="subsection-number">8.7</span><span class="subsection-title">Optimization Strategies and Meta-Algorithms</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter9.html">
+            <span class="chapter-number">09</span>
+            <span class="chapter-title">Convolutional Networks</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 9 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 9 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter9-1.html"><span class="subsection-number">9.1</span><span class="subsection-title">The Convolution Operation</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-2.html"><span class="subsection-number">9.2</span><span class="subsection-title">Motivation</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-3.html"><span class="subsection-number">9.3</span><span class="subsection-title">Pooling</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-4.html"><span class="subsection-number">9.4</span><span class="subsection-title">Convolution and Pooling as an Infinitely Strong Prior</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-5.html"><span class="subsection-number">9.5</span><span class="subsection-title">Variants of the Basic Convolution Function</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-6.html"><span class="subsection-number">9.6</span><span class="subsection-title">Structured Outputs</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-7.html"><span class="subsection-number">9.7</span><span class="subsection-title">Data Types</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-8.html"><span class="subsection-number">9.8</span><span class="subsection-title">Efficient Convolution Algorithms</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-9.html"><span class="subsection-number">9.9</span><span class="subsection-title">Random or Unsupervised Features</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-10.html"><span class="subsection-number">9.10</span><span class="subsection-title">The Neuroscientific Basis for Convolutional Networks</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter9-11.html"><span class="subsection-number">9.11</span><span class="subsection-title">Convolutional Networks and the History of Deep Learning</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter10.html">
+            <span class="chapter-number">10</span>
+            <span class="chapter-title">Sequence Modeling: Recurrent and Recursive Nets</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 10 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 10 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter10-1.html"><span class="subsection-number">10.1</span><span class="subsection-title">Unfolding Computational Graphs</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-2.html"><span class="subsection-number">10.2</span><span class="subsection-title">Recurrent Neural Networks</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-3.html"><span class="subsection-number">10.3</span><span class="subsection-title">Bidirectional RNNs</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-4.html"><span class="subsection-number">10.4</span><span class="subsection-title">Encoder-Decoder Sequence-to-Sequence Architectures</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-5.html"><span class="subsection-number">10.5</span><span class="subsection-title">Deep Recurrent Networks</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-6.html"><span class="subsection-number">10.6</span><span class="subsection-title">Recursive Neural Networks</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-7.html"><span class="subsection-number">10.7</span><span class="subsection-title">The Challenge of Long-Term Dependencies</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-8.html"><span class="subsection-number">10.8</span><span class="subsection-title">Echo State Networks</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-9.html"><span class="subsection-number">10.9</span><span class="subsection-title">Leaky Units and Other Strategies for Multiple Time Scales</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-10.html"><span class="subsection-number">10.10</span><span class="subsection-title">The Long Short-Term Memory and Other Gated RNNs</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-11.html"><span class="subsection-number">10.11</span><span class="subsection-title">Optimization for Long-Term Dependencies</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter10-12.html"><span class="subsection-number">10.12</span><span class="subsection-title">Explicit Memory</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter11.html">
+            <span class="chapter-number">11</span>
+            <span class="chapter-title">Practical Methodology</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 11 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 11 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter11-1.html"><span class="subsection-number">11.1</span><span class="subsection-title">Performance Metrics</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter11-2.html"><span class="subsection-number">11.2</span><span class="subsection-title">Default Baseline Models</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter11-3.html"><span class="subsection-number">11.3</span><span class="subsection-title">Determining Whether to Gather More Data</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter11-4.html"><span class="subsection-number">11.4</span><span class="subsection-title">Selecting Hyperparameters</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter11-5.html"><span class="subsection-number">11.5</span><span class="subsection-title">Debugging Strategies</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter11-6.html"><span class="subsection-number">11.6</span><span class="subsection-title">Example: Multi-Digit Number Recognition</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter12.html">
+            <span class="chapter-number">12</span>
+            <span class="chapter-title">Applications</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 12 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 12 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter12-1.html"><span class="subsection-number">12.1</span><span class="subsection-title">Large-Scale Deep Learning</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter12-2.html"><span class="subsection-number">12.2</span><span class="subsection-title">Computer Vision</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter12-3.html"><span class="subsection-number">12.3</span><span class="subsection-title">Speech Recognition</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter12-4.html"><span class="subsection-number">12.4</span><span class="subsection-title">Natural Language Processing</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter12-5.html"><span class="subsection-number">12.5</span><span class="subsection-title">Other Applications</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+</section>
+<p class="detail-note">Chapter 위에 마우스를 올리면 section 목차가 펼쳐집니다. 모바일에서는 오른쪽 화살표 버튼을 눌러 펼칠 수 있습니다.</p><footer class="site-footer"><p>Designed &amp; built by SaeHoon.</p><p>배운 것을 기록하고, 기록한 것을 구현합니다.</p></footer></main></body></html>
