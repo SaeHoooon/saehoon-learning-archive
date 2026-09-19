@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="theme-color" content="#07111f" /><link rel="stylesheet" href="styles.css" /><script defer src="script.js"></script><title>Deep Learning Research — SaeHoon Learning Archive</title></head>
+<body class="detail-page"><main class="detail-shell"><header class="detail-header"><a class="detail-back" href="index.html#notes">← Study Notes로 돌아가기</a><p class="detail-eyebrow">Deep Learning · Part III</p><h1 class="detail-title">Deep Learning Research</h1><p class="detail-intro">선형 요인 모델부터 autoencoder, representation learning, 확률모형, Monte Carlo, 생성모델까지 section별로 정리합니다.</p></header>
+<section class="chapter-list expandable-chapter-list" aria-label="학습 목차">
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter13.html">
+            <span class="chapter-number">13</span>
+            <span class="chapter-title">Linear Factor Models</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 13 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 13 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter13-1.html"><span class="subsection-number">13.1</span><span class="subsection-title">Probabilistic PCA and Factor Analysis</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter13-2.html"><span class="subsection-number">13.2</span><span class="subsection-title">Independent Component Analysis (ICA)</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter13-3.html"><span class="subsection-number">13.3</span><span class="subsection-title">Slow Feature Analysis</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter13-4.html"><span class="subsection-number">13.4</span><span class="subsection-title">Sparse Coding</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter13-5.html"><span class="subsection-number">13.5</span><span class="subsection-title">Manifold Interpretation of PCA</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter14.html">
+            <span class="chapter-number">14</span>
+            <span class="chapter-title">Autoencoders</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 14 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 14 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter14-1.html"><span class="subsection-number">14.1</span><span class="subsection-title">Undercomplete Autoencoders</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter14-2.html"><span class="subsection-number">14.2</span><span class="subsection-title">Regularized Autoencoders</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter14-3.html"><span class="subsection-number">14.3</span><span class="subsection-title">Representational Power, Layer Size and Depth</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter14-4.html"><span class="subsection-number">14.4</span><span class="subsection-title">Stochastic Encoders and Decoders</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter14-5.html"><span class="subsection-number">14.5</span><span class="subsection-title">Denoising Autoencoders</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter14-6.html"><span class="subsection-number">14.6</span><span class="subsection-title">Learning Manifolds with Autoencoders</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter14-7.html"><span class="subsection-number">14.7</span><span class="subsection-title">Contractive Autoencoders</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter14-8.html"><span class="subsection-number">14.8</span><span class="subsection-title">Predictive Sparse Decomposition</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter14-9.html"><span class="subsection-number">14.9</span><span class="subsection-title">Applications of Autoencoders</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter15.html">
+            <span class="chapter-number">15</span>
+            <span class="chapter-title">Representation Learning</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 15 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 15 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter15-1.html"><span class="subsection-number">15.1</span><span class="subsection-title">Greedy Layer-Wise Unsupervised Pretraining</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter15-2.html"><span class="subsection-number">15.2</span><span class="subsection-title">Transfer Learning and Domain Adaptation</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter15-3.html"><span class="subsection-number">15.3</span><span class="subsection-title">Semi-Supervised Disentangling of Causal Factors</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter15-4.html"><span class="subsection-number">15.4</span><span class="subsection-title">Distributed Representation</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter15-5.html"><span class="subsection-number">15.5</span><span class="subsection-title">Exponential Gains from Depth</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter15-6.html"><span class="subsection-number">15.6</span><span class="subsection-title">Providing Clues to Discover Underlying Causes</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter16.html">
+            <span class="chapter-number">16</span>
+            <span class="chapter-title">Structured Probabilistic Models for Deep Learning</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 16 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 16 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter16-1.html"><span class="subsection-number">16.1</span><span class="subsection-title">The Challenge of Unstructured Modeling</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter16-2.html"><span class="subsection-number">16.2</span><span class="subsection-title">Using Graphs to Describe Model Structure</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter16-3.html"><span class="subsection-number">16.3</span><span class="subsection-title">Sampling from Graphical Models</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter16-4.html"><span class="subsection-number">16.4</span><span class="subsection-title">Advantages of Structured Modeling</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter16-5.html"><span class="subsection-number">16.5</span><span class="subsection-title">Learning about Dependencies</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter16-6.html"><span class="subsection-number">16.6</span><span class="subsection-title">Inference and Approximate Inference</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter16-7.html"><span class="subsection-number">16.7</span><span class="subsection-title">The Deep Learning Approach to Structured Probabilistic Models</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter17.html">
+            <span class="chapter-number">17</span>
+            <span class="chapter-title">Monte Carlo Methods</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 17 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 17 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter17-1.html"><span class="subsection-number">17.1</span><span class="subsection-title">Sampling and Monte Carlo Methods</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter17-2.html"><span class="subsection-number">17.2</span><span class="subsection-title">Importance Sampling</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter17-3.html"><span class="subsection-number">17.3</span><span class="subsection-title">Markov Chain Monte Carlo Methods</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter17-4.html"><span class="subsection-number">17.4</span><span class="subsection-title">Gibbs Sampling</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter17-5.html"><span class="subsection-number">17.5</span><span class="subsection-title">The Challenge of Mixing between Separated Modes</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter18.html">
+            <span class="chapter-number">18</span>
+            <span class="chapter-title">Confronting the Partition Function</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 18 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 18 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter18-1.html"><span class="subsection-number">18.1</span><span class="subsection-title">The Log-Likelihood Gradient</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter18-2.html"><span class="subsection-number">18.2</span><span class="subsection-title">Stochastic Maximum Likelihood and Contrastive Divergence</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter18-3.html"><span class="subsection-number">18.3</span><span class="subsection-title">Pseudolikelihood</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter18-4.html"><span class="subsection-number">18.4</span><span class="subsection-title">Score Matching and Ratio Matching</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter18-5.html"><span class="subsection-number">18.5</span><span class="subsection-title">Denoising Score Matching</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter18-6.html"><span class="subsection-number">18.6</span><span class="subsection-title">Noise-Contrastive Estimation</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter18-7.html"><span class="subsection-number">18.7</span><span class="subsection-title">Estimating the Partition Function</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter19.html">
+            <span class="chapter-number">19</span>
+            <span class="chapter-title">Approximate Inference</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 19 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 19 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter19-1.html"><span class="subsection-number">19.1</span><span class="subsection-title">Inference as Optimization</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter19-2.html"><span class="subsection-number">19.2</span><span class="subsection-title">Expectation Maximization</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter19-3.html"><span class="subsection-number">19.3</span><span class="subsection-title">MAP Inference and Sparse Coding</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter19-4.html"><span class="subsection-number">19.4</span><span class="subsection-title">Variational Inference and Learning</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter19-5.html"><span class="subsection-number">19.5</span><span class="subsection-title">Learned Approximate Inference</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="chapter-group" data-chapter-group>
+        <div class="chapter-main-row">
+          <a class="chapter-link" href="chapters/chapter20.html">
+            <span class="chapter-number">20</span>
+            <span class="chapter-title">Deep Generative Models</span>
+            <span class="chapter-arrow" aria-hidden="true">→</span>
+          </a>
+          <button class="chapter-expand" type="button" aria-expanded="false" aria-label="Chapter 20 하위 목차 펼치기" data-chapter-toggle><span aria-hidden="true">⌄</span></button>
+        </div>
+        <div class="chapter-subsections" aria-label="Chapter 20 sections">
+          <a class="chapter-subsection-link" href="chapters/chapter20-1.html"><span class="subsection-number">20.1</span><span class="subsection-title">Boltzmann Machines</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-2.html"><span class="subsection-number">20.2</span><span class="subsection-title">Restricted Boltzmann Machines</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-3.html"><span class="subsection-number">20.3</span><span class="subsection-title">Deep Belief Networks</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-4.html"><span class="subsection-number">20.4</span><span class="subsection-title">Deep Boltzmann Machines</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-5.html"><span class="subsection-number">20.5</span><span class="subsection-title">Boltzmann Machines for Real-Valued Data</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-6.html"><span class="subsection-number">20.6</span><span class="subsection-title">Convolutional Boltzmann Machines</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-7.html"><span class="subsection-number">20.7</span><span class="subsection-title">Boltzmann Machines for Structured or Sequential Outputs</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-8.html"><span class="subsection-number">20.8</span><span class="subsection-title">Other Boltzmann Machines</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-9.html"><span class="subsection-number">20.9</span><span class="subsection-title">Back-Propagation through Random Operations</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-10.html"><span class="subsection-number">20.10</span><span class="subsection-title">Directed Generative Nets</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-11.html"><span class="subsection-number">20.11</span><span class="subsection-title">Drawing Samples from Autoencoders</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-12.html"><span class="subsection-number">20.12</span><span class="subsection-title">Generative Stochastic Networks</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-13.html"><span class="subsection-number">20.13</span><span class="subsection-title">Other Generation Schemes</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-14.html"><span class="subsection-number">20.14</span><span class="subsection-title">Evaluating Generative Models</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+          <a class="chapter-subsection-link" href="chapters/chapter20-15.html"><span class="subsection-number">20.15</span><span class="subsection-title">Conclusion</span><span class="subsection-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+</section>
+<p class="detail-note">Chapter 위에 마우스를 올리면 section 목차가 펼쳐집니다. 모바일에서는 오른쪽 화살표 버튼을 눌러 펼칠 수 있습니다.</p><footer class="site-footer"><p>Designed &amp; built by SaeHoon.</p><p>배운 것을 기록하고, 기록한 것을 구현합니다.</p></footer></main></body></html>
