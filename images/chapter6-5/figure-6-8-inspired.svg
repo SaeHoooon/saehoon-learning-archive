@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620">
+<style>
+  text{font-family:Arial,"Noto Sans KR",sans-serif;fill:#eaf2ff}
+  .label{font-size:28px;font-weight:700;fill:#5eead4}
+  .node{fill:#10213a;stroke:#5eead4;stroke-width:3}
+  .op{fill:#18324f;stroke:#8ba0bb;stroke-width:2}
+  .edge{stroke:#8ba0bb;stroke-width:3;fill:none;marker-end:url(#a)}
+  .small{font-size:22px}
+  .tiny{font-size:19px;fill:#b8c7db}
+  .title{font-size:24px;font-weight:700}
+</style>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#8ba0bb"/></marker></defs>
+
+<!-- A -->
+<text class="label" x="40" y="55">(a)</text>
+<circle class="node" cx="80" cy="145" r="34"/><text class="small" x="80" y="153" text-anchor="middle">x</text>
+<circle class="node" cx="80" cy="255" r="34"/><text class="small" x="80" y="263" text-anchor="middle">y</text>
+<rect class="op" x="165" y="164" width="80" height="72" rx="16"/><text class="title" x="205" y="209" text-anchor="middle">×</text>
+<circle class="node" cx="320" cy="200" r="34"/><text class="small" x="320" y="208" text-anchor="middle">z</text>
+<path class="edge" d="M114 145 L165 185"/><path class="edge" d="M114 255 L165 216"/><path class="edge" d="M245 200 L286 200"/>
+<text class="tiny" x="38" y="340">z = xy</text>
+
+<!-- B -->
+<text class="label" x="390" y="55">(b)</text>
+<circle class="node" cx="430" cy="120" r="30"/><text class="small" x="430" y="128" text-anchor="middle">x</text>
+<circle class="node" cx="430" cy="210" r="30"/><text class="small" x="430" y="218" text-anchor="middle">w</text>
+<rect class="op" x="520" y="128" width="95" height="58" rx="14"/><text class="small" x="567" y="164" text-anchor="middle">dot</text>
+<circle class="node" cx="680" cy="157" r="30"/><text class="small" x="680" y="165" text-anchor="middle">u¹</text>
+<circle class="node" cx="680" cy="247" r="30"/><text class="small" x="680" y="255" text-anchor="middle">b</text>
+<rect class="op" x="755" y="164" width="80" height="58" rx="14"/><text class="small" x="795" y="200" text-anchor="middle">+</text>
+<circle class="node" cx="900" cy="193" r="30"/><text class="small" x="900" y="201" text-anchor="middle">u²</text>
+<rect class="op" x="965" y="164" width="80" height="58" rx="14"/><text class="small" x="1005" y="200" text-anchor="middle">σ</text>
+<circle class="node" cx="1125" cy="193" r="30"/><text class="small" x="1125" y="201" text-anchor="middle">ŷ</text>
+<path class="edge" d="M460 120 L520 145"/><path class="edge" d="M460 210 L520 169"/><path class="edge" d="M615 157 L650 157"/>
+<path class="edge" d="M710 157 L755 181"/><path class="edge" d="M710 247 L755 210"/><path class="edge" d="M835 193 L870 193"/>
+<path class="edge" d="M930 193 L965 193"/><path class="edge" d="M1045 193 L1095 193"/>
+<text class="tiny" x="390" y="340">logistic regression: ŷ = σ(xᵀw + b)</text>
+
+<!-- C -->
+<text class="label" x="40" y="405">(c)</text>
+<text class="tiny" x="40" y="445">matrix multiply → bias add → ReLU</text>
+<rect class="node" x="55" y="480" width="80" height="58" rx="14"/><text class="small" x="95" y="516" text-anchor="middle">X</text>
+<rect class="node" x="55" y="555" width="80" height="58" rx="14"/><text class="small" x="95" y="591" text-anchor="middle">W</text>
+<rect class="op" x="180" y="518" width="120" height="58" rx="14"/><text class="small" x="240" y="554" text-anchor="middle">matmul</text>
+<rect class="node" x="345" y="518" width="80" height="58" rx="14"/><text class="small" x="385" y="554" text-anchor="middle">U¹</text>
+<rect class="node" x="345" y="440" width="80" height="58" rx="14"/><text class="small" x="385" y="476" text-anchor="middle">b</text>
+<rect class="op" x="475" y="500" width="80" height="58" rx="14"/><text class="small" x="515" y="536" text-anchor="middle">+</text>
+<rect class="node" x="600" y="500" width="80" height="58" rx="14"/><text class="small" x="640" y="536" text-anchor="middle">U²</text>
+<rect class="op" x="725" y="500" width="90" height="58" rx="14"/><text class="small" x="770" y="536" text-anchor="middle">ReLU</text>
+<rect class="node" x="865" y="500" width="80" height="58" rx="14"/><text class="small" x="905" y="536" text-anchor="middle">H</text>
+<path class="edge" d="M135 509 L180 535"/><path class="edge" d="M135 584 L180 558"/><path class="edge" d="M300 547 L345 547"/>
+<path class="edge" d="M425 547 L475 535"/><path class="edge" d="M425 469 L475 518"/><path class="edge" d="M555 529 L600 529"/>
+<path class="edge" d="M680 529 L725 529"/><path class="edge" d="M815 529 L865 529"/>
+
+<!-- D summary -->
+<text class="label" x="980" y="405">(d)</text>
+<text class="tiny" x="980" y="445">prediction + weight-decay branch</text>
+<text class="tiny" x="980" y="480">ŷ = xᵀw</text>
+<text class="tiny" x="980" y="515">regularizer ∝ λ Σᵢ wᵢ²</text>
+</svg>

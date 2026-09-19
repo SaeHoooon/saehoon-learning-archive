@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 300">
+<style>
+  text{font-family:Arial,"Noto Sans KR",sans-serif;fill:#eaf2ff}
+  .node{fill:#10213a;stroke:#5eead4;stroke-width:3}
+  .op{fill:#18324f;stroke:#8ba0bb;stroke-width:2}
+  .edge{stroke:#8ba0bb;stroke-width:3;fill:none;marker-end:url(#a)}
+  .main{font-size:28px;font-weight:700}.small{font-size:22px}.cap{font-size:20px;fill:#b8c7db}
+</style>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#8ba0bb"/></marker></defs>
+<circle class="node" cx="100" cy="120" r="38"/><text class="main" x="100" y="130" text-anchor="middle">w</text>
+<rect class="op" x="200" y="85" width="90" height="70" rx="15"/><text class="main" x="245" y="130" text-anchor="middle">f</text>
+<circle class="node" cx="390" cy="120" r="38"/><text class="main" x="390" y="130" text-anchor="middle">x</text>
+<rect class="op" x="490" y="85" width="90" height="70" rx="15"/><text class="main" x="535" y="130" text-anchor="middle">f</text>
+<circle class="node" cx="680" cy="120" r="38"/><text class="main" x="680" y="130" text-anchor="middle">y</text>
+<rect class="op" x="780" y="85" width="90" height="70" rx="15"/><text class="main" x="825" y="130" text-anchor="middle">f</text>
+<circle class="node" cx="940" cy="120" r="38"/><text class="main" x="940" y="130" text-anchor="middle">z</text>
+<path class="edge" d="M138 120 L200 120"/><path class="edge" d="M290 120 L352 120"/><path class="edge" d="M428 120 L490 120"/>
+<path class="edge" d="M580 120 L642 120"/><path class="edge" d="M718 120 L780 120"/><path class="edge" d="M870 120 L902 120"/>
+<text class="cap" x="490" y="235" text-anchor="middle">x=f(w), y=f(x), z=f(y)</text>
+</svg>
