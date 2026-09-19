@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07111f">
-  <meta
-    name="description"
-    content="Deep Learning Chapter 6.4 Architecture Design 학습 노트"
-  >
 
-  <title>
-    6.4 Architecture Design — SaeHoon Learning Archive
-  </title>
+  <title>Chapter 6 - Architecture Design</title>
 
   <link rel="stylesheet" href="../styles.css">
 
@@ -32,6 +26,7 @@
     defer
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
   </script>
+
 </head>
 
 
@@ -42,187 +37,72 @@
     <header class="detail-header">
 
       <a
-        href="chapter6.html"
+        href="../deep-networks.html"
         class="detail-back">
-        ← Chapter 6 목차로 돌아가기
+        ← Chapter 목록으로 돌아가기
       </a>
 
       <p class="detail-eyebrow">
         Chapter 06 · Deep Feedforward Networks
       </p>
 
-      <p class="chapter-page-number">
-        Section 6.4
-      </p>
-
       <h1 class="detail-title">
-        Architecture Design
+        6.4 Architecture Design
       </h1>
 
     </header>
 
 
+
     <article class="study-article">
 
 
-      <h2>Architecture란?</h2>
-
-      <p>
-        신경망의 <strong>architecture</strong>란 크게 layer를 몇 개 사용할 것인지에
-        해당하는 <strong>depth</strong>, 각 layer에 unit을 몇 개 둘 것인지에
-        해당하는 <strong>width</strong>, 그리고 layer들을 어떻게 연결할 것인지를
-        결정하는 것을 의미한다.
-      </p>
-
-      <p>
-        가장 기본적인 feedforward neural network는 다음과 같은
-        chain structure를 가진다.
-      </p>
-
-      <div class="study-equation">
-        \[
-        x
-        \rightarrow h^{(1)}
-        \rightarrow h^{(2)}
-        \rightarrow \cdots
-        \rightarrow y
-        \]
-      </div>
-
-      <p>
-        첫 번째 hidden layer는
-      </p>
-
-      <div class="study-equation">
-        \[
-        h^{(1)}
-        =
-        g^{(1)}
-        \left(
-        W^{(1)T}x+b^{(1)}
-        \right)
-        \tag{6.40}
-        \]
-      </div>
-
-      <p>
-        두 번째 hidden layer는
-      </p>
-
-      <div class="study-equation">
-        \[
-        h^{(2)}
-        =
-        g^{(2)}
-        \left(
-        W^{(2)T}h^{(1)}+b^{(2)}
-        \right)
-        \tag{6.41}
-        \]
-      </div>
-
-      <p>
-        로 표현된다. 즉 각 layer에서는 이전 layer의 출력을 받아
-        <strong>affine transformation</strong>을 적용하고,
-        그 결과에 activation function을 적용하는 과정이 반복된다.
-      </p>
-
-      <p>
-        예를 들어
-        \(x\in\mathbb{R}^{100}\rightarrow
-        h^{(1)}\in\mathbb{R}^{50}\rightarrow
-        h^{(2)}\in\mathbb{R}^{20}\rightarrow
-        y\in\mathbb{R}^{10}\)
-        이라면 hidden layer는 두 개이고,
-        첫 번째와 두 번째 hidden layer의 width는 각각 50과 20이다.
-      </p>
-
-      <p>
-        hidden layer 하나만 있어도 이론적으로 매우 많은 함수를 표현할 수 있지만,
-        실제로는
-        <strong>
-          깊은 network가 더 적은 unit과 parameter로
-          같은 함수를 표현할 수 있는 경우가 많다.
-        </strong>
-
-        다만 network가 깊어질수록 optimization은 어려워질 수 있기 때문에
-        실제 depth와 width는 validation error를 확인하면서
-        실험적으로 결정해야 한다.
-      </p>
-
+      <!-- Universal Approximation Theorem -->
 
       <h2>
-        6.4.1 Universal Approximation Properties and Depth
+        Universal Approximation Theorem
       </h2>
 
-
-      <h3>
-        왜 hidden layer가 필요한가?
-      </h3>
-
       <p>
-        Linear model은 다음과 같은 형태를 가진다.
-      </p>
-
-      <div class="study-equation">
-        \[
-        y=W^Tx+b
-        \]
-      </div>
-
-      <p>
-        따라서 기본적으로 linear function만 표현할 수 있다.
-        Optimization은 비교적 쉽지만,
-        현실의 많은 문제는 nonlinear한 관계를 가지므로
-        nonlinear hidden layer가 필요하다.
-      </p>
-
-
-      <h3>
         Universal Approximation Theorem
-      </h3>
-
-      <p>
-        Universal Approximation Theorem에 따르면
-        충분한 수의 hidden unit이 있다면,
-        적어도 하나의 hidden layer와 적절한 nonlinear activation을 가진
-        feedforward network는 매우 넓은 종류의 함수를
-        원하는 정확도까지 근사할 수 있다.
+        (Hornik et al., 1989; Cybenko, 1989)에 따르면,
+        충분한 hidden units들이 있다면
+        hidden layer 하나와 nonlinear activation function으로
+        매우 많은 종류의 함수를 근사할 수 있다.
       </p>
 
-      <p>
-        중요한 점은
-        <strong>표현 가능성(representable)</strong>과
-        <strong>학습 가능성(learnable)</strong>이 같지 않다는 것이다.
 
-        원하는 함수를 표현하는 parameter configuration이
-        network 안에 존재하더라도,
-        실제 optimization 과정에서 그 parameter를 찾지 못할 수 있고
-        training data에 overfitting될 수도 있다.
+      <p>
+        하지만 모든 종류의 함수를 실제로
+        <strong>학습할 수 있다는 보장은 없다.</strong>
+        그 이유는 다음과 같다.
       </p>
 
-      <blockquote>
-        Universal Approximation Theorem은
-        “신경망이 무엇이든 자동으로 학습한다”는 뜻이 아니라,
-        충분히 큰 신경망 안에 원하는 함수를 근사하는
-        parameter configuration이 존재한다는
-        표현 능력에 관한 정리다.
-      </blockquote>
 
+      <ol>
+        <li>
+          Optimization 과정에서 적절한 parameter를
+          찾지 못할 수 있다.
+        </li>
 
-      <h3>
-        hidden layer 하나면 충분한데 왜 Deep Learning을 사용하는가?
-      </h3>
+        <li>
+          Training data에 overfitting이 발생할 수 있다.
+        </li>
+      </ol>
+
 
       <p>
-        문제는 하나의 hidden layer만 사용할 경우
-        필요한 width가 매우 크게 증가할 수 있다는 점이다.
+        또한 하나의 hidden layer만 사용한다면
+        layer의 width가 매우 크게 증가할 수 있다.
+      </p>
 
+
+      <p>
         입력이
-        \(v\in\{0,1\}^n\)인
-        \(n\)개의 binary variable이라면
-        가능한 입력 조합은
+        \(v \in \{0,1\}^{n}\)
+        일 때 가능한 binary input은
       </p>
+
 
       <div class="study-equation">
         \[
@@ -230,226 +110,347 @@
         \]
       </div>
 
+
       <p>
-        개다.
+        개 존재한다.
 
-        일반적인 binary function을 표현하려면
-        최악의 경우 \(O(2^n)\) 정도의 자유도가 필요할 수 있기 때문에,
-        shallow network가 지수적으로 커질 수 있다.
+        일반적인 binary function을 표현하기 위해서는
+        최악의 경우 \(O(2^n)\) 정도의 자유도가
+        필요할 수 있다.
 
-        따라서 매우 넓은 shallow network보다
-        depth를 증가시킨 network가
-        더 효율적인 표현을 제공할 수 있다.
+        따라서 하나의 매우 넓은 layer를 사용하는 것보다
+        depth를 증가시킨 신경망 구조가
+        더 효율적일 수 있다.
       </p>
 
 
-      <h3>
-        Depth가 주는 표현력
-      </h3>
+      <blockquote>
+
+        “A feedforward network with a single layer is sufficient
+        to represent any function, but the layer may be infeasibly
+        large and may fail to learn and generalize correctly.”
+
+      </blockquote>
+
+
+
+      <!-- Depth -->
+
+      <h2>
+        Depth와 표현력
+      </h2>
+
 
       <p>
-        ReLU와 같은 piecewise linear activation을 사용하는 network에서는
-        입력 공간이 여러 linear region으로 나뉜다.
-
-        Network가 깊어질수록 앞선 layer가 만든 표현을
-        다음 layer가 반복적으로 조합하기 때문에
-        훨씬 많은 linear region을 만들 수 있다.
+        Piecewise linear network에서는
+        network의 depth가 증가함에 따라
+        표현할 수 있는 linear region의 수가
+        매우 빠르게 증가할 수 있다.
       </p>
+
 
       <div class="study-equation">
+
         \[
-        O\left(
+        O
+        \left(
         \binom{n}{d}^{d(l-1)}
         n^d
         \right)
         \tag{6.42}
         \]
+
       </div>
 
+
       <ul>
-        <li>\(d\): input dimension</li>
-        <li>\(l\): network depth</li>
-        <li>\(n\): 각 hidden layer의 unit 수</li>
+        <li>
+          \(d\): 입력 차원
+        </li>
+
+        <li>
+          \(l\): network depth
+        </li>
+
+        <li>
+          \(n\): 각 hidden layer의 unit 수
+        </li>
       </ul>
 
-      <p>
-        중요한 것은 식의 세부 상수보다
-        <strong>
-          linear region의 수가 depth \(l\)에 대해
-          매우 빠르게 증가할 수 있다는 점
-        </strong>
-        이다.
 
-        즉 layer가 추가될수록 기존 표현을 다시 조합하면서
-        더 복잡한 함수를 표현할 수 있다.
+      <p>
+        ReLU network에서는 depth가 증가할수록
+        linear region의 수가 지수적으로 증가할 수 있다.
+
+        즉 depth를 증가시키는 것은 단순히
+        layer를 추가하는 것이 아니라,
+        network의 표현력을 크게 증가시키는 역할을 한다.
       </p>
 
+
+
+      <!-- Maxout -->
 
       <h3>
-        Maxout에서도 동일한 현상
+        Maxout Network
       </h3>
 
+
       <p>
-        각 maxout unit이 \(k\)개의 filter를 가진다면
-        linear region의 수는 다음과 같은 형태로 증가할 수 있다.
+        Maxout network에서도 유사한 특징을 확인할 수 있다.
       </p>
 
+
       <div class="study-equation">
+
         \[
-        O\left(
+        O
+        \left(
         k^{(l-1)+d}
         \right)
         \tag{6.43}
         \]
+
       </div>
 
+
+      <ul>
+        <li>
+          \(k\): 한 maxout unit이 비교하는 filter 수
+        </li>
+
+        <li>
+          \(l\): network depth
+        </li>
+
+        <li>
+          \(d\): 입력 차원
+        </li>
+      </ul>
+
+
       <p>
-        이 결과 역시 depth가 증가하면
-        표현 가능한 영역 수가 매우 빠르게 증가할 수 있다는 점을 보여준다.
+        이 결과에서도 depth가 증가하면
+        network가 표현할 수 있는 복잡성이
+        매우 빠르게 증가할 수 있음을 알 수 있다.
       </p>
 
 
-      <h3>
-        Depth의 통계적 의미
-      </h3>
 
-      <p>
-        Deep architecture를 선택한다는 것은
-        복잡한 함수가 여러 단순한 함수의 합성으로 이루어져 있을 것이라는
-        구조적 가정을 모델에 넣는 것과 같다.
-      </p>
-
-      <div class="study-equation">
-        \[
-        f(x)
-        =
-        f^{(L)}\left(
-        f^{(L-1)}\left(
-        \cdots f^{(1)}(x)
-        \right)
-        \right)
-        \]
-      </div>
-
-      <p>
-        이미지 인식을 예로 들면
-        pixel에서 edge, shape, object part, object로 이어지는 것처럼
-        각 layer가 단순한 transformation을 학습하고
-        이를 계층적으로 조합한다고 볼 수 있다.
-      </p>
-
+      <!-- Figure 6.6 -->
 
       <figure class="study-figure">
 
         <img
           src="../images/chapter6/figure-6-6.png"
-          alt="Figure 6.6 Effect of Depth">
+          alt="Effect of depth">
 
         <figcaption>
-          Figure 6.6 — hidden layer 수가 증가하면서
-          test accuracy가 향상되는 경향을 보여주는 실험 결과.
+          Figure 6.6 — Effect of depth.
+          Hidden layer의 수가 증가할수록
+          multidigit recognition task의 test accuracy가
+          증가하는 경향을 보여준다.
         </figcaption>
 
       </figure>
 
-      <p>
-        이 결과는 해당 실험에서 depth 증가가
-        generalization 성능 향상과 함께 나타났음을 보여준다.
-      </p>
+
+      <blockquote>
+
+        “Using deep architectures does indeed express a useful
+        prior over the space of functions the model learns.”
+
+      </blockquote>
 
 
-      <figure class="study-figure">
 
-        <img
-          src="../images/chapter6/figure-6-7.png"
-          alt="Figure 6.7 Effect of Number of Parameters">
-
-        <figcaption>
-          Figure 6.7 — 단순히 parameter 수를 증가시키는 것과
-          depth를 증가시키는 것은 같은 효과가 아님을 보여주는 비교.
-        </figcaption>
-
-      </figure>
-
-      <p>
-        즉 deep network의 장점은
-        단순히 parameter가 많기 때문이라고만 설명할 수 없다.
-
-        Depth 자체가
-        “복잡한 함수는 단순한 함수들의 계층적 합성으로 이루어져 있을 것이다”
-        라는 useful prior를 제공한다.
-      </p>
-
+      <!-- Other Architectural Considerations -->
 
       <h2>
-        6.4.2 Other Architectural Considerations
+        Other Architectural Considerations
       </h2>
 
+
       <p>
-        지금까지는
-        \(h^{(1)}\rightarrow h^{(2)}\rightarrow h^{(3)}\)
-        처럼 단순한 chain structure를 생각했지만,
-        실제 neural network에서는 더 다양한 연결 구조를 사용할 수 있다.
+        많은 신경망 구조는 task의 종류에 따라
+        다양하게 설계될 수 있다.
+
+        예를 들어 computer vision에 사용되는 CNN,
+        sequence processing에 사용되는 RNN처럼
+        문제의 특성에 따라 network architecture가
+        달라질 수 있다.
       </p>
 
+
+
+      <!-- Skip Connection -->
 
       <h3>
         Skip Connection
       </h3>
 
-      <p>
-        반드시 바로 다음 layer로만 연결될 필요는 없다.
-
-        예를 들어 \(h^{(1)}\)에서 \(h^{(3)}\)로
-        직접 연결되는 것처럼
-        중간 layer를 건너뛰는 연결을 만들 수 있다.
-
-        이를 <strong>skip connection</strong>이라고 한다.
-      </p>
 
       <p>
-        이러한 연결은 output에서 input에 가까운 layer까지
-        gradient가 전달되기 쉬운 경로를 제공할 수 있다.
+        각 layer가 반드시 chain처럼
       </p>
 
+
+      <div class="study-equation simple">
+
+        \[
+        h^{(1)}
+        \rightarrow
+        h^{(2)}
+        \rightarrow
+        h^{(3)}
+        \rightarrow
+        \cdots
+        \]
+
+      </div>
+
+
+      <p>
+        순서로만 연결될 필요는 없다.
+      </p>
+
+
+      <p>
+        어떤 architecture에서는
+        \(i\)번째 layer에서
+        \(i+1\)번째 layer로 가는 기본 연결뿐만 아니라
+        \(i+2\), \(i+3\)번째 layer로 직접 연결되는
+        경로를 추가할 수 있다.
+
+        이러한 연결을
+        <strong>skip connection</strong>
+        이라고 한다.
+      </p>
+
+
+      <p>
+        Backpropagation 과정에서 gradient는
+        출력층에서 앞쪽 layer까지 전달된다.
+      </p>
+
+
+      <p>
+        일반적인 chain structure에서는
+        chain rule에 의해 여러 derivative가
+        연속적으로 곱해진다.
+      </p>
+
+
+      <div class="study-equation">
+
+        \[
+        \frac{\partial L}
+        {\partial h^{(1)}}
+        =
+        \frac{\partial L}
+        {\partial h^{(L)}}
+        \frac{\partial h^{(L)}}
+        {\partial h^{(L-1)}}
+        \cdots
+        \frac{\partial h^{(2)}}
+        {\partial h^{(1)}}
+        \]
+
+      </div>
+
+
+      <p>
+        Network가 깊어질수록 많은 derivative가
+        연속적으로 곱해져야 한다.
+
+        하지만 skip connection이 존재하면
+        gradient가 더 짧은 경로를 통해
+        앞쪽 layer까지 전달될 수 있다.
+      </p>
+
+
+
+      <!-- Sparse Connection -->
 
       <h3>
-        Fully Connected일 필요도 없다
+        Sparse Connection
       </h3>
 
-      <p>
-        기본적인 fully connected layer에서는
-        이전 layer의 모든 neuron이
-        다음 layer의 모든 neuron과 연결된다.
-
-        하지만 모든 연결이 항상 필요한 것은 아니다.
-
-        일부 연결만 허용하면 parameter 수와 계산량을 줄일 수 있다.
-      </p>
 
       <p>
-        대표적인 예가 CNN의 local connectivity이다.
-
-        따라서 좋은 architecture는 단순히 많은 연결을 사용하는 것이 아니라,
-        <strong>
-          문제의 구조에 맞는 connectivity를 사용하는 것
-        </strong>
-        이 중요하다.
+        두 layer를 연결할 때
+        모든 neuron을 서로 연결할 필요는 없다.
       </p>
 
 
-      <h3>
-        Architecture는 어떻게 결정하는가?
-      </h3>
+      <p>
+        예를 들어 입력 neuron이 4개,
+        출력 neuron이 3개라고 하자.
+      </p>
+
 
       <p>
-        6.4에는 backpropagation처럼
-        별도의 pseudocode 형태의 algorithm이 제시되지는 않는다.
-
-        Depth, width, connectivity를 선택하고
-        모델을 학습한 뒤 validation error를 확인하며
-        architecture를 수정하는 실험적 과정이 중요하다.
+        Fully connected layer라면
+        weight의 개수는
       </p>
+
+
+      <div class="study-equation simple">
+
+        \[
+        4 \times 3 = 12
+        \]
+
+      </div>
+
+
+      <p>
+        개다.
+      </p>
+
+
+      <p>
+        하지만 모든 연결이 필요한 것은 아니다.
+
+        필요한 neuron끼리만 연결하는 구조를
+        <strong>sparse connection</strong>
+        이라고 한다.
+      </p>
+
+
+      <p>
+        Sparse connection을 사용하면
+        connection의 수가 감소하므로
+        parameter의 수와 계산량을 줄일 수 있다.
+      </p>
+
+
+
+      <!-- Figure 6.7 -->
+
+      <figure class="study-figure">
+
+        <img
+          src="../images/chapter6/figure-6-7.png"
+          alt="Effect of number of parameters">
+
+        <figcaption>
+          Figure 6.7 — Effect of number of parameters.
+          단순히 parameter 수를 증가시키는 것이
+          depth를 증가시키는 것과 같은 효과를
+          만들어내지는 않는다.
+        </figcaption>
+
+      </figure>
+
+
+      <p>
+        위 실험을 통해
+        단순히 parameter의 수가 많다고 해서
+        test accuracy가 항상 높아지는 것은
+        아니라는 점을 확인할 수 있다.
+      </p>
+
 
     </article>
 
@@ -460,13 +461,10 @@
         Designed &amp; built by SaeHoon.
       </p>
 
-      <p>
-        배운 것을 기록하고, 기록한 것을 구현합니다.
-      </p>
-
     </footer>
 
   </main>
 
 </body>
+
 </html>
