@@ -1,27 +1,669 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#07111f" />
-  <link rel="stylesheet" href="../styles.css" />
-  <title>6.5 Back-Propagation and Other Differentiation Algorithms — SaeHoon Learning Archive</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Chapter 6 - Back-Propagation</title>
+
+  <link rel="stylesheet" href="../styles.css">
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
 </head>
+
+
 <body class="detail-page">
-  <main class="detail-shell">
+
+  <main class="detail-shell study-page">
+
     <header class="detail-header">
-      <a class="detail-back" href="../deep-networks.html">← Chapter 6 목차로 돌아가기</a>
-      <p class="detail-eyebrow">Chapter 06 · Deep Feedforward Networks</p>
-      <p class="chapter-page-number">Section 6.5</p>
-      <h1 class="detail-title">Back-Propagation and Other Differentiation Algorithms</h1>
-      <p class="detail-intro">이 section의 학습 내용을 정리할 페이지입니다.</p>
+
+      <a
+        href="../deep-networks.html"
+        class="detail-back">
+        ← Chapter 목록으로 돌아가기
+      </a>
+
+      <p class="detail-eyebrow">
+        Chapter 06 · Deep Feedforward Networks
+      </p>
+
+      <h1 class="detail-title">
+        6.5 Back-Propagation and Other Differentiation Algorithms
+      </h1>
+
     </header>
-    <section class="coming-soon-card">
-      <span class="coming-soon-label">STUDY NOTE</span>
-      <h2>정리 예정</h2>
-      <p>교재를 학습하면서 수식, 그림, 예시와 핵심 설명을 이 페이지에 추가합니다.</p>
-    </section>
-    <footer class="site-footer"><p>Designed &amp; built by SaeHoon.</p><p>배운 것을 기록하고, 기록한 것을 구현합니다.</p></footer>
+
+
+
+    <article class="study-article">
+
+
+      <!-- Backpropagation -->
+
+      <h2>
+        Backpropagation
+      </h2>
+
+      <p>
+        먼저 Backpropagation은
+        <strong>gradient를 계산하는 과정</strong>이다.
+
+        Gradient를 계산한 후 parameter를 실제로 업데이트하는
+        학습 과정 자체를 의미하는 것은 아니다.
+      </p>
+
+      <p>
+        즉 Backpropagation은 loss function으로부터
+        각 parameter에 대한 gradient를 효율적으로 계산하고,
+        이후 gradient descent와 같은 optimization algorithm이
+        이 gradient를 이용해 parameter를 업데이트한다.
+      </p>
+
+
+
+      <!-- 6.5.1 Computational Graphs -->
+
+      <h2>
+        6.5.1 Computational Graphs
+      </h2>
+
+      <p>
+        Backpropagation 알고리즘을 보다 정확하게 설명하기 위해
+        계산 과정을 <strong>computational graph</strong>로 나타낼 수 있다.
+      </p>
+
+      <p>
+        Computational graph에서는 각 node가 변수(variable)를 나타내고,
+        edge는 한 변수의 값이 다른 변수의 계산에 사용된다는 관계를 나타낸다.
+
+        하나의 node는 scalar, vector, matrix, tensor와 같은
+        다양한 형태의 값을 가질 수 있다.
+      </p>
+
+
+      <!-- Figure 6.8 style illustration -->
+
+      <figure class="study-figure">
+
+        <img
+          src="../images/chapter6-5/figure-6-8-inspired.svg"
+          alt="Computational graph examples inspired by Figure 6.8">
+
+        <figcaption>
+          Figure 6.8의 개념을 바탕으로 다시 그린 computational graph 예시.
+          곱셈, logistic regression prediction, ReLU activation,
+          prediction과 regularization branch를 나타낸다.
+        </figcaption>
+
+      </figure>
+
+
+      <p>
+        예를 들어 logistic regression의 prediction은
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \hat{y}
+        =
+        \sigma
+        \left(
+        x^T w+b
+        \right)
+        \]
+
+      </div>
+
+      <p>
+        와 같이 여러 개의 작은 연산으로 나누어 표현할 수 있다.
+      </p>
+
+      <p>
+        ReLU를 사용하는 layer에서는
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        H
+        =
+        \max
+        \left\{
+        0,
+        XW+b
+        \right\}
+        \]
+
+      </div>
+
+      <p>
+        와 같이 matrix multiplication,
+        bias addition,
+        nonlinear activation을 각각의 연산으로 나누어
+        computational graph에 표현할 수 있다.
+      </p>
+
+
+
+      <!-- 6.5.2 Chain Rule -->
+
+      <h2>
+        6.5.2 Chain Rule of Calculus
+      </h2>
+
+      <p>
+        Backpropagation의 수학적인 기반은
+        <strong>chain rule</strong>이다.
+      </p>
+
+
+      <h3>
+        Scalar의 경우
+      </h3>
+
+      <p>
+        \(y=g(x)\), \(z=f(y)\)라면,
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \frac{dz}{dx}
+        =
+        \frac{dz}{dy}
+        \frac{dy}{dx}
+        \]
+
+      </div>
+
+      <p>
+        이다.
+      </p>
+
+
+      <h3>
+        Vector의 경우
+      </h3>
+
+      <p>
+        \(x\in\mathbb{R}^{m}\),
+        \(y\in\mathbb{R}^{n}\)이고
+        \(y=g(x)\), \(z=f(y)\)라고 하자.
+      </p>
+
+      <p>
+        이때 각 \(x_i\)에 대한 derivative는
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \frac{\partial z}{\partial x_i}
+        =
+        \sum_j
+        \frac{\partial z}{\partial y_j}
+        \frac{\partial y_j}{\partial x_i}
+        \]
+
+      </div>
+
+      <p>
+        로 계산할 수 있다.
+      </p>
+
+      <p>
+        이를 vector 형태로 쓰면
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \nabla_x z
+        =
+        \left(
+        \frac{\partial y}
+        {\partial x}
+        \right)^T
+        \nabla_y z
+        \]
+
+      </div>
+
+      <p>
+        이다.
+
+        여기서
+        \(\dfrac{\partial y}{\partial x}\)
+        는 \(n\times m\) 크기의 Jacobian matrix이다.
+      </p>
+
+
+      <h3>
+        Tensor의 경우
+      </h3>
+
+      <p>
+        Tensor에서도 같은 원리가 적용된다.
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \nabla_X z
+        =
+        \sum_j
+        \left(
+        \nabla_X Y_j
+        \right)
+        \frac{\partial z}{\partial Y_j}
+        \]
+
+      </div>
+
+      <p>
+        즉 vector든 tensor든
+        현재 gradient에 local derivative 또는 local Jacobian을 적용해
+        이전 변수의 gradient를 계산한다고 이해할 수 있다.
+      </p>
+
+
+
+      <!-- Repeated computation -->
+
+      <h2>
+        Repeated Subexpressions
+      </h2>
+
+      <p>
+        Chain rule을 이용하면 gradient를 계산할 수 있지만,
+        단순하게 식을 계속 전개하면
+        동일한 intermediate computation이 반복될 수 있다.
+      </p>
+
+
+      <figure class="study-figure">
+
+        <img
+          src="../images/chapter6-5/figure-6-9-inspired.svg"
+          alt="Repeated subexpression computational graph inspired by Figure 6.9">
+
+        <figcaption>
+          Figure 6.9의 개념을 바탕으로 다시 그린 graph.
+          \(x=f(w)\), \(y=f(x)\), \(z=f(y)\)가 순차적으로 계산된다.
+        </figcaption>
+
+      </figure>
+
+
+      <p>
+        위 graph에서
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        x=f(w),
+        \qquad
+        y=f(x),
+        \qquad
+        z=f(y)
+        \]
+
+      </div>
+
+      <p>
+        라고 하자.
+      </p>
+
+      <p>
+        \(z\)를 \(w\)에 대해 미분하면
+        chain rule에 의해
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \frac{dz}{dw}
+        =
+        \frac{dz}{dy}
+        \frac{dy}{dx}
+        \frac{dx}{dw}
+        \]
+
+      </div>
+
+      <p>
+        이고,
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \frac{dz}{dw}
+        =
+        f'(y)
+        f'(x)
+        f'(w)
+        \]
+
+      </div>
+
+      <p>
+        로 쓸 수 있다.
+      </p>
+
+      <p>
+        \(x=f(w)\),
+        \(y=f(f(w))\)를 대입하면
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \frac{dz}{dw}
+        =
+        f'
+        \left(
+        f(f(w))
+        \right)
+        f'
+        \left(
+        f(w)
+        \right)
+        f'(w)
+        \]
+
+      </div>
+
+      <p>
+        가 된다.
+      </p>
+
+      <p>
+        Forward 과정에서
+        \(x=f(w)\), \(y=f(x)\)의 값을 저장해 두면
+        backward 과정에서 해당 값을 다시 계산하지 않고
+        재사용할 수 있다.
+      </p>
+
+
+
+      <!-- 6.5.3 -->
+
+      <h2>
+        6.5.3 Recursively Applying the Chain Rule
+      </h2>
+
+      <p>
+        Computational graph의 node를
+        \(u^{(1)},u^{(2)},\dots,u^{(n)}\)이라고 하자.
+      </p>
+
+      <p>
+        \(Pa(u^{(i)})\)는
+        \(u^{(i)}\)를 계산하는 데
+        직접적으로 사용되는 parent node들의 집합을 의미한다.
+      </p>
+
+      <p>
+        Forward 과정에서는 입력 node부터 시작하여
+        각 node의 값을 순서대로 계산한다.
+      </p>
+
+
+      <h3>
+        Algorithm 6.1 — Forward Propagation
+      </h3>
+
+      <ol>
+        <li>
+          입력 node
+          \(u^{(1)},\dots,u^{(n_i)}\)의 값을 준비한다.
+        </li>
+
+        <li>
+          \(i=n_i+1,\dots,n\) 순서로
+          각 node를 계산한다.
+        </li>
+
+        <li>
+          각 node에 대응하는 operation을
+          parent node들에 적용한다.
+        </li>
+      </ol>
+
+      <div class="study-equation">
+
+        \[
+        u^{(i)}
+        =
+        f^{(i)}
+        \left(
+        Pa(u^{(i)})
+        \right)
+        \]
+
+      </div>
+
+      <p>
+        이 과정을 통해 최종 output node
+        \(u^{(n)}\)을 얻는다.
+      </p>
+
+
+      <h3>
+        Algorithm 6.2 — Backpropagation
+      </h3>
+
+      <p>
+        Backward 과정에서는
+        최종 node에서 시작하여 graph를 역방향으로 따라간다.
+      </p>
+
+      <p>
+        먼저 최종 output에 대해
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \frac{\partial u^{(n)}}
+        {\partial u^{(n)}}
+        =
+        1
+        \]
+
+      </div>
+
+      <p>
+        로 시작한다.
+      </p>
+
+      <p>
+        그리고 각 node \(u^{(j)}\)에 대해
+        \(u^{(j)}\)가 영향을 주는 child node들의 gradient를 이용하여
+        gradient를 누적한다.
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \frac{\partial u^{(n)}}
+        {\partial u^{(j)}}
+        =
+        \sum_{i:j\in Pa(u^{(i)})}
+        \frac{\partial u^{(n)}}
+        {\partial u^{(i)}}
+        \frac{\partial u^{(i)}}
+        {\partial u^{(j)}}
+        \]
+
+      </div>
+
+      <p>
+        즉 이미 계산된 상위 node의 gradient에
+        현재 edge에 해당하는 local derivative를 곱하고,
+        여러 경로가 존재한다면 그 값을 합산한다.
+      </p>
+
+
+
+      <!-- Custom Example -->
+
+      <h2>
+        Algorithm 6.1, 6.2 예시
+      </h2>
+
+      <p>
+        총 6개의 node가 있고
+        입력으로 \(u_1,u_2,u_3\)가 주어진다고 하자.
+      </p>
+
+      <div class="study-equation simple">
+
+        \[
+        u_4
+        =
+        u_1+u_2
+        \]
+
+      </div>
+
+      <div class="study-equation simple">
+
+        \[
+        u_5
+        =
+        u_2u_3
+        \]
+
+      </div>
+
+      <div class="study-equation simple">
+
+        \[
+        u_6
+        =
+        u_4+u_5
+        \]
+
+      </div>
+
+
+      <figure class="study-figure">
+
+        <img
+          src="../images/chapter6-5/example-computational-graph.svg"
+          alt="Six node computational graph example">
+
+        <figcaption>
+          직접 만든 computational graph.
+          \(u_2\)가 \(u_4\)와 \(u_5\) 두 경로를 통해
+          \(u_6\)에 영향을 주는 구조를 확인할 수 있다.
+        </figcaption>
+
+      </figure>
+
+
+      <p>
+        Algorithm 6.1의 forward 과정에서는
+        \(u_4\), \(u_5\), \(u_6\)가 순서대로 계산된다.
+      </p>
+
+      <p>
+        이제 \(u_6\)에 대해
+        각 node의 gradient를 구한다고 생각해보자.
+      </p>
+
+      <p>
+        Backpropagation은 graph의 각 edge를
+        역방향으로 따라가면서
+        이미 계산한 gradient를 재사용한다.
+      </p>
+
+      <p>
+        예를 들어 \(u_2\)는
+        \(u_4\)와 \(u_5\) 두 경로를 통해
+        \(u_6\)에 영향을 준다.
+      </p>
+
+      <div class="study-equation">
+
+        \[
+        \frac{\partial u_6}
+        {\partial u_2}
+        =
+        \frac{\partial u_6}
+        {\partial u_4}
+        \frac{\partial u_4}
+        {\partial u_2}
+        +
+        \frac{\partial u_6}
+        {\partial u_5}
+        \frac{\partial u_5}
+        {\partial u_2}
+        \]
+
+      </div>
+
+      <p>
+        이때
+        \(\dfrac{\partial u_6}{\partial u_4}\)와
+        \(\dfrac{\partial u_6}{\partial u_5}\)는
+        앞선 backward 과정에서 이미 계산되어 있기 때문에
+        다시 처음부터 계산할 필요가 없다.
+      </p>
+
+      <p>
+        따라서 현재 필요한 local derivative인
+        \(\dfrac{\partial u_4}{\partial u_2}\)와
+        \(\dfrac{\partial u_5}{\partial u_2}\)만 계산하여
+        기존 gradient와 곱하고 합산하면 된다.
+      </p>
+
+      <blockquote>
+        Backpropagation은 동일한 subexpression을 반복해서 계산하지 않고,
+        forward 과정에서 저장한 intermediate value와
+        backward 과정에서 이미 계산한 gradient를 재사용한다.
+
+        따라서 scalar computational graph에서는
+        전체 계산량이 graph의 edge 수에 비례한다.
+      </blockquote>
+
+
+    </article>
+
+
+    <footer class="site-footer">
+
+      <p>
+        Designed &amp; built by SaeHoon.
+      </p>
+
+    </footer>
+
   </main>
+
 </body>
+
 </html>
