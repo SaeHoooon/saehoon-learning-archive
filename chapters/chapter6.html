@@ -101,17 +101,9 @@
         입력이
         \(v \in \{0,1\}^{n}\)
         일 때 가능한 binary input은
-      </p>
-
-
-      <div class="study-equation">
         \[
         2^n
         \]
-      </div>
-
-
-      <p>
         개 존재한다.
 
         일반적인 binary function을 표현하기 위해서는
@@ -292,11 +284,6 @@
 
       <p>
         각 layer가 반드시 chain처럼
-      </p>
-
-
-      <div class="study-equation simple">
-
         \[
         h^{(1)}
         \rightarrow
@@ -306,11 +293,6 @@
         \rightarrow
         \cdots
         \]
-
-      </div>
-
-
-      <p>
         순서로만 연결될 필요는 없다.
       </p>
 
@@ -325,16 +307,8 @@
         이러한 연결을
         <strong>skip connection</strong>
         이라고 한다.
-      </p>
-
-
-      <p>
         Backpropagation 과정에서 gradient는
         출력층에서 앞쪽 layer까지 전달된다.
-      </p>
-
-
-      <p>
         일반적인 chain structure에서는
         chain rule에 의해 여러 derivative가
         연속적으로 곱해진다.
@@ -380,10 +354,6 @@
       <p>
         두 layer를 연결할 때
         모든 neuron을 서로 연결할 필요는 없다.
-      </p>
-
-
-      <p>
         예를 들어 입력 neuron이 4개,
         출력 neuron이 3개라고 하자.
       </p>
@@ -392,33 +362,14 @@
       <p>
         Fully connected layer라면
         weight의 개수는
-      </p>
-
-
-      <div class="study-equation simple">
-
         \[
         4 \times 3 = 12
         \]
-
-      </div>
-
-
-      <p>
         개다.
-      </p>
-
-
-      <p>
         하지만 모든 연결이 필요한 것은 아니다.
-
         필요한 neuron끼리만 연결하는 구조를
         <strong>sparse connection</strong>
         이라고 한다.
-      </p>
-
-
-      <p>
         Sparse connection을 사용하면
         connection의 수가 감소하므로
         parameter의 수와 계산량을 줄일 수 있다.
