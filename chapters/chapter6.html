@@ -4,38 +4,1475 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07111f" />
-  <meta name="description" content="Deep Learning Chapter 6: Deep Feedforward Networks 학습 노트" />
+  <meta name="description" content="Deep Learning Chapter 6: Architecture Design (6.4) 학습 노트" />
   <link rel="stylesheet" href="../styles.css" />
-  <title>Chapter 6 — Deep Feedforward Networks | SaeHoon Learning Archive</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+  <title>
+    6.4 Architecture Design | SaeHoon Learning Archive
+  </title>
 </head>
-<body class="detail-page">
-  <main class="detail-shell chapter-placeholder-shell">
-    <header class="detail-header">
-      <a class="detail-back" href="../deep-networks.html">← 상위 목차로 돌아가기</a>
-      <p class="detail-eyebrow">Part II · Modern Practical Deep Networks</p>
-      <p class="chapter-page-number">Chapter 06</p>
-      <h1 class="detail-title">Deep Feedforward Networks</h1>
-      <p class="detail-intro">이 장에서 공부한 내용을 직접 정리해 올릴 예정입니다.</p>
+
+<body class="detail-page chapter-note-page">
+
+  <a class="skip-link" href="#content">
+    본문으로 바로가기
+  </a>
+
+  <main class="detail-shell chapter-note-shell" id="content">
+
+    <header class="detail-header chapter-note-header">
+
+      <a
+        class="detail-back"
+        href="../deep-networks.html">
+        ← 상위 목차로 돌아가기
+      </a>
+
+      <p class="detail-eyebrow">
+        Chapter 06 · Deep Feedforward Networks
+      </p>
+
+      <p class="chapter-page-number">
+        Section 6.4
+      </p>
+
+      <h1 class="detail-title">
+        Architecture Design
+      </h1>
+
+      <p class="detail-intro">
+        신경망의
+        <strong>depth, width, connectivity</strong>
+        를 어떻게 설계할지 다루는 절이다.
+
+        핵심은
+        “충분히 넓은 얕은 network도 강력하지만,
+        depth는 같은 복잡성을 더 효율적으로 표현할 수 있다”
+        는 점이다.
+      </p>
+
+
+      <nav
+        class="chapter-toc"
+        aria-label="페이지 목차">
+
+        <a href="#architecture">
+          Architecture
+        </a>
+
+        <a href="#universal">
+          6.4.1 Universal Approximation
+        </a>
+
+        <a href="#depth">
+          Depth의 표현력
+        </a>
+
+        <a href="#figures">
+          Figure 6.5–6.7
+        </a>
+
+        <a href="#other">
+          6.4.2 Other Considerations
+        </a>
+
+        <a href="#summary">
+          핵심 요약
+        </a>
+
+      </nav>
+
     </header>
 
-    <section class="coming-soon-card" aria-labelledby="coming-soon-title">
-      <span class="coming-soon-label">COMING SOON</span>
-      <h2 id="coming-soon-title">곧 업데이트됩니다.</h2>
-      <p>
-        핵심 개념, 수식, 예시와 제가 이해한 내용을 이 페이지에 차례대로 정리할 예정입니다.
-      </p>
-      <div class="coming-soon-plan" aria-label="업데이트 예정 내용">
-        <span>핵심 개념</span>
-        <span>주요 수식</span>
-        <span>예시 · 그림</span>
-        <span>직접 정리한 해설</span>
-      </div>
-    </section>
 
-    <footer class="site-footer">
-      <p>Designed &amp; built by SaeHoon.</p>
-      <p>배운 것을 기록하고, 기록한 것을 구현합니다.</p>
+    <article class="chapter-article">
+
+
+      <!-- ==============================
+           01. Architecture
+      =============================== -->
+
+      <section
+        class="chapter-section"
+        id="architecture">
+
+        <div class="section-number">
+          01
+        </div>
+
+        <div class="section-content">
+
+          <p class="section-kicker">
+            Architecture Basics
+          </p>
+
+          <h2>
+            Architecture란?
+          </h2>
+
+          <p>
+            신경망의 <strong>architecture</strong>는
+            크게 세 가지를 결정한다.
+
+            layer의 개수인
+            <strong>depth</strong>,
+
+            각 layer의 unit 수인
+            <strong>width</strong>,
+
+            그리고 layer 사이의
+            <strong>연결 방식</strong>이다.
+          </p>
+
+
+          <div class="concept-grid three">
+
+            <div class="concept-card">
+              <span>DEPTH</span>
+              <strong>
+                Layer를 몇 개 쌓을 것인가
+              </strong>
+            </div>
+
+            <div class="concept-card">
+              <span>WIDTH</span>
+              <strong>
+                각 layer에 unit을 몇 개 둘 것인가
+              </strong>
+            </div>
+
+            <div class="concept-card">
+              <span>CONNECTIVITY</span>
+              <strong>
+                Layer를 어떻게 연결할 것인가
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div
+            class="flow-diagram"
+            aria-label="feedforward chain structure">
+
+            <span>x</span>
+
+            <i>→</i>
+
+            <span>
+              h<sup>(1)</sup>
+            </span>
+
+            <i>→</i>
+
+            <span>
+              h<sup>(2)</sup>
+            </span>
+
+            <i>→</i>
+
+            <span>⋯</span>
+
+            <i>→</i>
+
+            <span>y</span>
+
+          </div>
+
+
+          <p>
+            가장 기본적인 feedforward neural network는
+            위와 같은
+            <strong>chain structure</strong>
+            를 가진다.
+          </p>
+
+
+          <div class="equation-card">
+
+            <div class="equation-label">
+              Eq. 6.40
+            </div>
+
+            \[
+              h^{(1)}
+              =
+              g^{(1)}
+              \left(
+              W^{(1)T}x+b^{(1)}
+              \right)
+            \]
+
+          </div>
+
+
+          <div class="equation-card">
+
+            <div class="equation-label">
+              Eq. 6.41
+            </div>
+
+            \[
+              h^{(2)}
+              =
+              g^{(2)}
+              \left(
+              W^{(2)T}h^{(1)}
+              +
+              b^{(2)}
+              \right)
+            \]
+
+          </div>
+
+
+          <div class="pipeline-card">
+
+            <span>
+              이전 layer
+            </span>
+
+            <i>→</i>
+
+            <span>
+              Affine transformation
+            </span>
+
+            <i>→</i>
+
+            <span>
+              Activation
+            </span>
+
+          </div>
+
+
+          <div class="note-box">
+
+            <strong>
+              예시
+            </strong>
+
+            <p>
+              \(
+              x\in\mathbb{R}^{100}
+              \rightarrow
+              h^{(1)}\in\mathbb{R}^{50}
+              \rightarrow
+              h^{(2)}\in\mathbb{R}^{20}
+              \rightarrow
+              y\in\mathbb{R}^{10}
+              \)
+
+              이라면 hidden layer는 2개이며
+              width는 각각 50, 20이다.
+            </p>
+
+          </div>
+
+
+          <div class="key-point">
+
+            <span>
+              KEY MESSAGE
+            </span>
+
+            <p>
+              hidden layer 하나만으로도
+              매우 많은 함수를 표현할 수 있지만,
+
+              실제로는
+              <strong>
+                깊은 network가 더 적은 unit과 parameter로
+                같은 함수를 표현할 수 있는 경우가 많다.
+              </strong>
+            </p>
+
+          </div>
+
+
+          <p>
+            반대로 depth가 증가하면
+            optimization은 더 어려워질 수 있다.
+
+            따라서 실제 depth와 width는
+            이론만으로 정하지 않고
+
+            <strong>
+              validation error를 확인하면서
+              실험적으로 결정
+            </strong>
+            한다.
+          </p>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ==============================
+           02. Universal Approximation
+      =============================== -->
+
+      <section
+        class="chapter-section"
+        id="universal">
+
+        <div class="section-number">
+          02
+        </div>
+
+        <div class="section-content">
+
+          <p class="section-kicker">
+            6.4.1
+          </p>
+
+          <h2>
+            Universal Approximation Properties and Depth
+          </h2>
+
+
+          <h3>
+            왜 hidden layer가 필요한가?
+          </h3>
+
+          <p>
+            Linear model은
+          </p>
+
+          <div class="equation-card compact">
+
+            \[
+              y=W^Tx+b
+            \]
+
+          </div>
+
+          <p>
+            형태이므로 본질적으로
+            linear function만 표현한다.
+
+            optimization은 비교적 쉽지만,
+
+            현실의 복잡한 nonlinear 관계를
+            표현하기에는 한계가 있다.
+
+            그래서 hidden layer에
+            nonlinear activation을 사용한다.
+          </p>
+
+
+          <div class="flow-diagram wide">
+
+            <span>
+              Input
+            </span>
+
+            <i>→</i>
+
+            <span class="accent-node">
+              Nonlinear hidden layer
+            </span>
+
+            <i>→</i>
+
+            <span>
+              Output
+            </span>
+
+          </div>
+
+
+          <h3>
+            Universal Approximation Theorem
+          </h3>
+
+          <p>
+            충분한 수의 hidden unit과
+            적절한 nonlinear activation을 가진
+            feedforward network는
+
+            매우 넓은 종류의 함수를
+            원하는 정확도까지 근사할 수 있다.
+
+            초기 결과는 sigmoid 같은
+            squashing function을 중심으로
+            제시되었고,
+
+            이후 ReLU를 포함한
+            더 넓은 activation class로 확장되었다.
+          </p>
+
+
+          <div class="statement-card">
+
+            <span>
+              UNIVERSAL APPROXIMATION
+            </span>
+
+            <strong>
+              hidden layer가 1개라도 충분히 넓다면
+              복잡한 함수를 근사할 수 있다.
+            </strong>
+
+          </div>
+
+
+          <h3>
+            표현 가능성과 학습 가능성은 다르다
+          </h3>
+
+
+          <div class="compare-card">
+
+            <div>
+
+              <span>
+                Representable
+              </span>
+
+              <strong>
+                원하는 함수를 나타내는 parameter가
+                network 안에 존재한다.
+              </strong>
+
+            </div>
+
+
+            <div class="not-equal">
+              ≠
+            </div>
+
+
+            <div>
+
+              <span>
+                Learnable
+              </span>
+
+              <strong>
+                training algorithm이
+                실제로 그 parameter를 찾아낸다.
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <p>
+            실제 training에서는
+            optimization이 적절한 parameter를
+            찾지 못하거나,
+
+            training data에 과적합된
+            다른 함수를 선택할 수 있다.
+          </p>
+
+
+          <div class="note-box warning">
+
+            <strong>
+              주의
+            </strong>
+
+            <p>
+              Universal Approximation Theorem은
+
+              “신경망이 무엇이든 자동으로 학습한다”
+
+              는 보장이 아니다.
+
+              원하는 함수를 근사하는
+
+              <strong>
+                parameter configuration이 존재한다
+              </strong>
+
+              는 표현 능력에 관한 정리다.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ==============================
+           03. Depth
+      =============================== -->
+
+      <section
+        class="chapter-section"
+        id="depth">
+
+        <div class="section-number">
+          03
+        </div>
+
+        <div class="section-content">
+
+          <p class="section-kicker">
+            Why Depth?
+          </p>
+
+          <h2>
+            hidden layer 하나면 충분한데
+            왜 Deep Learning을 쓰는가?
+          </h2>
+
+
+          <p>
+            Universal Approximation Theorem만 보면
+            hidden layer 하나면 충분해 보인다.
+
+            문제는 같은 함수를 표현하기 위해 필요한
+            <strong>width가 매우 커질 수 있다</strong>
+            는 점이다.
+          </p>
+
+
+          <p>
+            입력이
+
+            \(
+              v\in\{0,1\}^n
+            \)
+
+            인 \(n\)개의 binary variable이라면
+            가능한 입력 조합은
+          </p>
+
+
+          <div class="equation-card compact emphasis">
+
+            \[
+              2^n
+            \]
+
+          </div>
+
+
+          <p>
+            개다.
+
+            일반적인 함수를 모두 표현하려면
+            최악의 경우
+
+            \(O(2^n)\)
+
+            규모의 자유도가 필요할 수 있으므로
+            shallow network가 지수적으로 커질 수 있다.
+          </p>
+
+
+          <div class="architecture-compare">
+
+            <div class="architecture-box shallow">
+
+              <span>
+                SHALLOW
+              </span>
+
+              <div class="mini-layers">
+
+                <b></b>
+
+                <b class="wide-layer"></b>
+
+                <b></b>
+
+              </div>
+
+              <strong>
+                얕지만 매우 넓음
+              </strong>
+
+            </div>
+
+
+            <div class="vs">
+              VS
+            </div>
+
+
+            <div class="architecture-box deep">
+
+              <span>
+                DEEP
+              </span>
+
+              <div class="mini-layers vertical">
+
+                <b></b>
+                <b></b>
+                <b></b>
+                <b></b>
+                <b></b>
+
+              </div>
+
+              <strong>
+                깊지만 비교적 좁음
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <h3>
+            Piecewise linear network와 linear region
+          </h3>
+
+          <p>
+            ReLU는
+          </p>
+
+          <div class="equation-card compact">
+
+            \[
+              g(z)=\max(0,z)
+            \]
+
+          </div>
+
+
+          <p>
+            이므로 network는
+            입력 공간을 여러 linear region으로
+            나눌 수 있다.
+
+            depth가 증가하면 기존 영역을
+            단순히 추가하는 것이 아니라
+
+            <strong>
+              앞선 layer가 만든 표현을
+              다음 layer가 다시 조합
+            </strong>
+
+            하면서 훨씬 복잡한 구분을 만들 수 있다.
+          </p>
+
+
+          <div class="equation-card">
+
+            <div class="equation-label">
+              Eq. 6.42
+            </div>
+
+            \[
+              O
+              \left(
+                \binom{n}{d}^{d(l-1)}
+                n^d
+              \right)
+            \]
+
+
+            <div class="equation-meta">
+
+              <span>
+                <b>d</b>
+                input dimension
+              </span>
+
+              <span>
+                <b>l</b>
+                network depth
+              </span>
+
+              <span>
+                <b>n</b>
+                units per hidden layer
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="key-point">
+
+            <span>
+              INTERPRETATION
+            </span>
+
+            <p>
+              식의 세부 상수보다 중요한 것은
+
+              <strong>
+                linear region의 수가
+                depth \(l\)에 대해 매우 빠르게,
+                경우에 따라 exponential하게
+                증가할 수 있다
+              </strong>
+
+              는 점이다.
+            </p>
+
+          </div>
+
+
+          <h3>
+            Maxout에서도 같은 현상
+          </h3>
+
+          <p>
+            각 maxout unit이
+            \(k\)개의 filter를 가진다면
+
+            linear region의 수는
+            다음과 같은 형태로 증가할 수 있다.
+          </p>
+
+
+          <div class="equation-card">
+
+            <div class="equation-label">
+              Eq. 6.43
+            </div>
+
+            \[
+              O
+              \left(
+                k^{(l-1)+d}
+              \right)
+            \]
+
+          </div>
+
+
+          <p>
+            핵심은 동일하다.
+
+            <strong>
+              depth가 증가하면
+              적은 unit으로도
+              더 복잡한 함수를 효율적으로 표현할
+              가능성이 커진다.
+            </strong>
+          </p>
+
+
+          <h3>
+            Depth의 통계적 의미
+          </h3>
+
+
+          <p>
+            deep architecture를 선택한다는 것은
+
+            복잡한 함수가 여러 단순한 함수의
+
+            <strong>
+              계층적 합성(composition)
+            </strong>
+
+            으로 이루어져 있을 것이라는
+            가정을 모델에 넣는 것과 같다.
+          </p>
+
+
+          <div class="hierarchy-diagram">
+
+            <span>Pixel</span>
+
+            <i>→</i>
+
+            <span>Edge</span>
+
+            <i>→</i>
+
+            <span>Corner / Shape</span>
+
+            <i>→</i>
+
+            <span>Object Part</span>
+
+            <i>→</i>
+
+            <span>Object</span>
+
+          </div>
+
+
+          <div class="equation-card compact">
+
+            \[
+              f(x)
+              =
+              f^{(L)}
+              \left(
+                f^{(L-1)}
+                \left(
+                  \cdots
+                  f^{(1)}(x)
+                \right)
+              \right)
+            \]
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ==============================
+           04. Figures
+      =============================== -->
+
+      <section
+        class="chapter-section"
+        id="figures">
+
+        <div class="section-number">
+          04
+        </div>
+
+        <div class="section-content">
+
+          <p class="section-kicker">
+            Figures
+          </p>
+
+          <h2>
+            Figure 6.5–6.7이 전달하는 핵심
+          </h2>
+
+
+
+          <div class="figure-note">
+
+            <div class="figure-heading">
+
+              <span>
+                FIGURE 6.5
+              </span>
+
+              <strong>
+                공간을 반복해서 접는다는 의미
+              </strong>
+
+            </div>
+
+
+            <p>
+              교재는 absolute value rectification
+
+              \(g(z)=|z|\)
+
+              를 예로 들어
+
+              depth가 표현을 반복적으로
+              재구성하는 과정을 설명한다.
+            </p>
+
+
+            <div class="fold-demo">
+
+
+              <div>
+
+                <span>
+                  Original
+                </span>
+
+                <div class="axis">
+
+                  <b>−a</b>
+
+                  <em>0</em>
+
+                  <b>+a</b>
+
+                </div>
+
+              </div>
+
+
+              <i>
+                → |z| →
+              </i>
+
+
+              <div>
+
+                <span>
+                  After folding
+                </span>
+
+                <div class="axis folded">
+
+                  <em>0</em>
+
+                  <b>a</b>
+
+                </div>
+
+              </div>
+
+
+              <i>
+                → repeat →
+              </i>
+
+
+              <div>
+
+                <span>
+                  Deep composition
+                </span>
+
+                <strong>
+                  더 많은 반복 구조
+                </strong>
+
+              </div>
+
+
+            </div>
+
+
+            <p class="figure-caption">
+              한 layer가 만든 transformation을
+              다음 layer가 다시 변환한다.
+
+              즉 deep network는
+              단순한 transformation을 여러 번 합성해
+              복잡성을 만든다.
+            </p>
+
+          </div>
+
+
+
+          <div class="figure-note">
+
+            <div class="figure-heading">
+
+              <span>
+                FIGURE 6.6
+              </span>
+
+              <strong>
+                Depth와 test accuracy
+              </strong>
+
+            </div>
+
+
+            <p>
+              주소 사진에서 여러 자리 숫자를
+              인식하는 실험에서는
+
+              hidden layer가 증가하면서
+              test accuracy가 대략
+
+              92% → 94% → 95% → 96%
+
+              방향으로 증가하는 결과가 관찰된다.
+            </p>
+
+
+            <div
+              class="trend-chart"
+              aria-label="depth increase and test accuracy trend">
+
+
+              <div class="trend-y">
+                Test accuracy ↑
+              </div>
+
+
+              <div class="trend-bars">
+
+                <span style="--h:42%">
+                  <b>~92%</b>
+                </span>
+
+                <span style="--h:61%">
+                  <b>~94%</b>
+                </span>
+
+                <span style="--h:76%">
+                  <b>~95%</b>
+                </span>
+
+                <span style="--h:90%">
+                  <b>~96%</b>
+                </span>
+
+              </div>
+
+
+              <div class="trend-x">
+                Number of hidden layers →
+              </div>
+
+            </div>
+
+
+            <p class="figure-caption">
+              이 실험에서는 depth 증가와 함께
+              generalization 성능 향상이 관찰되었다.
+            </p>
+
+          </div>
+
+
+
+          <div class="figure-note">
+
+            <div class="figure-heading">
+
+              <span>
+                FIGURE 6.7
+              </span>
+
+              <strong>
+                단순히 parameter가 많아서 좋은 것인가?
+              </strong>
+
+            </div>
+
+
+            <p>
+              shallow network의 parameter 수만
+              늘리는 경우와
+
+              실제 depth를 늘리는 경우를 비교한다.
+
+              단순한 parameter 증가만으로는
+              depth 증가와 같은 성능 향상이
+              나타나지 않았다.
+            </p>
+
+
+            <div class="statement-card small">
+
+              <span>
+                CONCLUSION
+              </span>
+
+              <strong>
+                Depth의 효과
+                ≠
+                단순한 parameter 수 증가
+              </strong>
+
+            </div>
+
+
+            <p class="figure-caption">
+              depth는
+
+              “복잡한 함수가 단순한 함수들의
+              계층적 합성으로 이루어져 있다”
+
+              는 구조적 prior를 제공한다.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ==============================
+           05. Other Architectural Considerations
+      =============================== -->
+
+      <section
+        class="chapter-section"
+        id="other">
+
+        <div class="section-number">
+          05
+        </div>
+
+        <div class="section-content">
+
+          <p class="section-kicker">
+            6.4.2
+          </p>
+
+          <h2>
+            Other Architectural Considerations
+          </h2>
+
+          <p>
+            실제 neural network는
+            단순한 chain보다 훨씬 다양한
+            연결 구조를 사용할 수 있다.
+          </p>
+
+
+          <h3>
+            Skip Connection
+          </h3>
+
+
+          <div
+            class="skip-diagram"
+            aria-label="skip connection diagram">
+
+            <div class="skip-main">
+
+              <span>
+                h<sup>(1)</sup>
+              </span>
+
+              <i>→</i>
+
+              <span>
+                h<sup>(2)</sup>
+              </span>
+
+              <i>→</i>
+
+              <span>
+                h<sup>(3)</sup>
+              </span>
+
+            </div>
+
+
+            <div class="skip-arc">
+              ↘──────────────↗
+            </div>
+
+          </div>
+
+
+          <p>
+            바로 다음 layer로만 연결할 필요는 없다.
+
+            중간 layer를 건너뛰는
+            연결을 만들 수 있으며,
+
+            이런 연결은
+
+            <strong>
+              output에서 input에 가까운 layer까지
+              gradient가 흐르기 쉽게
+            </strong>
+
+            만드는 데 도움을 줄 수 있다.
+          </p>
+
+
+          <h3>
+            Fully Connected일 필요도 없다
+          </h3>
+
+
+          <p>
+            기본 layer
+
+            \(h=W^Tx+b\)
+
+            는 이전 layer의 모든 neuron과
+            다음 layer의 모든 neuron을 연결한다.
+
+            하지만 문제의 구조에 따라
+            일부 연결만 허용할 수 있다.
+          </p>
+
+
+          <div class="connectivity-grid">
+
+
+            <div class="connectivity-card">
+
+              <span>
+                FULLY CONNECTED
+              </span>
+
+              <div class="dot-network dense">
+
+                <b></b>
+                <b></b>
+                <b></b>
+                <b></b>
+                <b></b>
+                <b></b>
+
+              </div>
+
+              <strong>
+                모든 unit이 연결
+              </strong>
+
+            </div>
+
+
+            <div class="connectivity-card">
+
+              <span>
+                SPARSE CONNECTION
+              </span>
+
+              <div class="dot-network sparse">
+
+                <b></b>
+                <b></b>
+                <b></b>
+                <b></b>
+
+              </div>
+
+              <strong>
+                필요한 연결만 사용
+              </strong>
+
+            </div>
+
+
+          </div>
+
+
+          <p>
+            연결을 제한하면
+            parameter와 computation을
+            줄일 수 있다.
+
+            대표적인 예가
+            CNN의 local connectivity다.
+          </p>
+
+
+          <div class="key-point">
+
+            <span>
+              DESIGN PRINCIPLE
+            </span>
+
+            <p>
+              <strong>
+                좋은 architecture는
+                문제의 구조에 맞는 connectivity를 사용한다.
+              </strong>
+            </p>
+
+          </div>
+
+
+          <h3>
+            6.4의 설계 흐름
+          </h3>
+
+
+          <p>
+            이 절에는 backpropagation처럼
+            별도의 pseudocode 알고리즘은
+            제시되지 않는다.
+
+            대신 architecture는
+            validation set을 이용해
+            실험적으로 결정한다.
+          </p>
+
+
+          <div class="design-loop">
+
+            <span>
+              Depth / Width / Connectivity 선택
+            </span>
+
+            <i>↓</i>
+
+            <span>
+              모델 학습
+            </span>
+
+            <i>↓</i>
+
+            <span>
+              Validation error 확인
+            </span>
+
+            <i>↓</i>
+
+            <span>
+              Architecture 수정
+            </span>
+
+            <i>↺</i>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ==============================
+           06. Summary
+      =============================== -->
+
+      <section
+        class="chapter-section summary-section"
+        id="summary">
+
+        <div class="section-number">
+          06
+        </div>
+
+        <div class="section-content">
+
+          <p class="section-kicker">
+            Summary
+          </p>
+
+          <h2>
+            6.4 핵심 요약
+          </h2>
+
+
+          <div class="summary-grid">
+
+
+            <div>
+
+              <span>01</span>
+
+              <p>
+                Architecture는
+                <strong>
+                  depth, width, connectivity
+                </strong>
+                를 결정한다.
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <span>02</span>
+
+              <p>
+                hidden layer 하나도
+                충분히 넓으면
+                강력한 함수 근사 능력을 가진다.
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <span>03</span>
+
+              <p>
+                <strong>
+                  Representable ≠ Learnable.
+                </strong>
+
+                표현 가능성이
+                곧 학습 성공을 뜻하지 않는다.
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <span>04</span>
+
+              <p>
+                depth는 앞선 표현을
+                반복적으로 조합해
+
+                <strong>
+                  표현 효율
+                </strong>
+
+                을 높일 수 있다.
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <span>05</span>
+
+              <p>
+                depth의 장점은
+                단순히 parameter 수가
+                증가해서 생기는 효과와
+                동일하지 않다.
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <span>06</span>
+
+              <p>
+                실제 architecture는
+                validation error를 보며
+                실험적으로 결정한다.
+              </p>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+    </article>
+
+
+    <footer class="site-footer chapter-footer">
+
+      <p>
+        Designed &amp; built by SaeHoon.
+      </p>
+
+      <p>
+        배운 것을 기록하고,
+        기록한 것을 구현합니다.
+      </p>
+
     </footer>
+
+
   </main>
+
 </body>
 </html>
